@@ -7,9 +7,9 @@ class Kanagawa
 	end
 
 	def run
-		if ! File.exist?(@scenario)
-			return 1
-		end
+		return 1 unless File.exist?(@scenario) 
+		return 1 unless File.exist?(@tsung_bin)
+
 		exec="#{@tsung_bin} -f - -m - start"
 		status = Open4::popen4(exec) do |pid, stdin, stdout, stderr|
 			err_thread = Thread.new(stderr) do |stderr_lines|
