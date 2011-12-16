@@ -1,0 +1,30 @@
+Feature: Jenkins integration
+	Kanagawa can be used as a Jenkins job
+	
+	Scenario: Return 1 when Tsung fails to run
+		Given a tsung return code different than 0
+		Then Kanagawa must return 1
+
+	Scenario: Kanagawa successfully runs a tsung scenario and a list of success/failure conditions 
+		Given a list of success or failure conditions
+		And a tsung scenario
+		When Kanagawa runs tsung with the scenario
+		And all success conditions are respected
+		And no failure condition appear 
+		Then Kanagawa returns 0
+
+	Scenario: Kanagawa runs a tsung scenario and fails to meet all success conditions
+		Given a list of success or failure conditions
+		And a tsung scenario
+		When Kanagawa runs tsung with the scenario
+		And not all success conditions are respected
+		Then Kanagawa returns 1
+
+	Scenario: Kanagawa runs a tsung scenario and meet one failure condition
+		Given a list of success or failure conditions
+		And a tsung scenario
+		When Kanagawa runs tsung with the scenario
+		And a failure condition appear 
+		Then Kanagawa returns 1
+
+

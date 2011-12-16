@@ -1,0 +1,8 @@
+Feature: Default conditions
+	Kanagawa can run with a list of default success/failure conditions
+
+	Scenario: By default all HTTP codes must be 2xx and 3xx
+		Given a tsung's activity logs and without list of success/failure conditions
+		When Kanagawa analyses tsung's activity logs
+		Then Kanagawa should only find HTTP codes 2xx and 3xx
+
