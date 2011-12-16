@@ -24,5 +24,6 @@ class KanagawaMocksTestCase < Test::Unit::TestCase
 	end
 
 	def test_return_1_when_tsung_is_not_executable
+		assert_return_code_with_bin_equal(1,"tsung_test_minimal.xml","/etc/passwd")
 	end
 end

@@ -9,6 +9,7 @@ class Kanagawa
 	def run
 		return 1 unless File.exist?(@scenario) 
 		return 1 unless File.exist?(@tsung_bin)
+		return 1 unless File.executable?(@tsung_bin)
 
 		exec="#{@tsung_bin} -f - -m - start"
 		status = Open4::popen4(exec) do |pid, stdin, stdout, stderr|
