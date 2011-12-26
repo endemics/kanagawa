@@ -20,7 +20,10 @@ class Kanagawa
 			end
 
 			out_thread = Thread.new(stdout) do |stdout_lines|
-				while (line = stdout_lines.gets)
+				must_break = false
+	      line_number = 0
+				while (line = stdout_lines.gets && must_break == false)
+	          line_number += 1
 				end
 			end
 
