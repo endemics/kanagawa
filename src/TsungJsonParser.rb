@@ -5,9 +5,13 @@ class TsungJsonParser
 		@datas = Array.new
 	end
 
+	# to add one data burst in json format
+	# one timestamp with samples : {"timestamp": XXXX,  "samples": [ .... ]} 
 	def add_json(string)
-		tmp=JSON.parse(string)
-	  @datas << tmp
+		if ! string.nil?
+			tmp=JSON.parse(string) 
+			@datas << tmp
+		end
 	end
 
 	def status?
@@ -20,5 +24,9 @@ class TsungJsonParser
 		}
 
 		return return_code
+	end
+
+	def count
+		return @datas.count
 	end
 end
