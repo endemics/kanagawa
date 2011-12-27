@@ -1,6 +1,6 @@
 require "../src/Kanagawa"
 require "test/unit"
-require "helpers"
+require "KanagawaHelpers"
 
 class KanagawaMocksTestCase < Test::Unit::TestCase
 	def test_return_1_when_tsung_mock_return_1

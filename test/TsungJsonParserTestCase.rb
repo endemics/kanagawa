@@ -1,19 +1,16 @@
 require "../src/TsungJsonParser"
 require "test/unit"
-require "helpers"
+require "TsungJsonParserHelpers"
 
 class TsungJsonParserTestCase < Test::Unit::TestCase
 	def test_status_return_break_when_error_connect_nxdomain_occurred
-		tsung_parser = TsungJsonParser.new()
-
 		json_data = '{"timestamp": 1324898796,  "samples": [
       {"name": "users", "value": 1, "max": 1},
    	  {"name": "users_count", "value": 1, "total": 1},
    	  {"name": "finish_users_count", "value": 0, "total": 0},
    	  {"name": "error_connect_nxdomain", "value": 1, "total": 1}]}'
-		tsung_parser.add_json(json_data)
 
-		assert_equal(:break,tsung_parser.status?)
+		assert_status_code_equal(:break,json_data)
 	end
 
 	def test_status_return_ok_when_no_error_occurred
@@ -31,10 +28,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 			{"name": "size_rcv", "value": 3666, "total": 3666}, 
 			{"name": "size_sent", "value": 54, "total": 54}, 
 			{"name": "connected", "value": 0, "max": 0}]}' 
-		tsung_parser = TsungJsonParser.new()
 
-
-		tsung_parser.add_json(json_data)
-		assert_equal(:ok,tsung_parser.status?)
+		assert_status_code_equal(:ok,json_data)
 	end
 end

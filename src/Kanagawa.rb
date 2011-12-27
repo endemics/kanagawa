@@ -1,9 +1,11 @@
 require "open4"
+require "../src/TsungJsonParser"
 
 class Kanagawa 
 	def initialize(scenario, tsung_bin = '/usr/bin/tsung')
 		@scenario = scenario
 		@tsung_bin = tsung_bin
+		@tsung_parser = TsungJsonParser.new()
 	end
 
 	def run
@@ -20,10 +22,12 @@ class Kanagawa
 			end
 
 			out_thread = Thread.new(stdout) do |stdout_lines|
-				must_break = false
-	      line_number = 0
-				while (line = stdout_lines.gets && must_break == false)
-	          line_number += 1
+				while (line = stdout_lines.gets)
+					#@tsung_parser.add_json(line)
+					#if @tsung_parser.status? == :break
+					#	Process.kill 15, pid 
+					#	puts "killing  #{pid}" 
+					#end
 				end
 			end
 
