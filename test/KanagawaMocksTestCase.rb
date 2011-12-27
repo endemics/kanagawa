@@ -27,7 +27,4 @@ class KanagawaMocksTestCase < Test::Unit::TestCase
 		assert_return_code_with_bin_equal(1,"tsung_test_minimal.xml","/etc/passwd")
 	end
 
-	def test_return_1_when_remote_host_does_not_exist
-		#assert_return_code_equal(1,"tsung_test_bad_remote_host.xml")
-	end
 end

@@ -14,6 +14,10 @@ class TsungJsonParser
 			input = input.sub(/,\s*$/, " ")
 			# remove last "]}" they correspond to close of '{"stats": ['
 			input = input.sub(/\}\]\}\]\}\s*$/, "}]}") unless input.nil?
+			# add ']}' if json is not correctly ended	
+			input = input.sub(/([0-9])\}$/, '\1}]}') unless input.nil?
+			input = input.sub(/\[$/, '[]}') unless input.nil?
+			#puts "Good line : -#{input}-"
 
 			add_json(input)
 		end
@@ -28,7 +32,11 @@ class TsungJsonParser
 	def status?
 		return_code = :ok
 
+		return return_code if @datas.nil? 
+		return return_code if @datas.count == 0
+
 		@datas.last['samples'].each do |sample|
+			return return_code if sample.nil?
 			if sample['name'] == 'error_connect_nxdomain' && sample['total'] >= 1
 				return_code = :break
 			end

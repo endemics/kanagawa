@@ -32,6 +32,12 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 		assert_status_code_equal(:ok,json_data)
 	end
 
+	def test_status_return_ok_when_no_data
+		json_data = nil
+
+		assert_status_code_equal(:ok,json_data)
+	end
+
 	def test_do_nothing_when_add_nil_data
 		tsung_parser = TsungJsonParser.new()
 		tsung_parser.add_json(nil)
@@ -67,5 +73,18 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 		json_data = ' '
 		tsung_parser.add_string(json_data)
 		assert_equal(3,tsung_parser.count, "Add empty line")
+	end
+
+	def test_i_can_add_brocken_json_data_produce_when_tsung_stop
+		json_data =' {"timestamp": 1325003014,  "samples": [   {"name": "users", "value": 5, "max": 5}, {"name": "freemem", "hostname": "localhost", "value": 1, "mean": 2751.1640625,"stdvar": 0.0,"max": 2751.22265625,"min": 2750.48046875 ,"global_mean": 2750.9388020833335 ,"global_count": 3}, {"name": "cpu", "hostname": "localhost", "value": 1, "mean": 0.5744255744255744,"stdvar": 0.0,"max": 1.6504126031507877,"min": 0.24968789013732834 ,"global_mean": 0.8081920059212137 ,"global_count": 3}, {"name": "load", "hostname": "localhost", "value": 1, "mean": 0.0,"stdvar": 0.0,"max": 0.0,"min": 0.0 ,"global_mean": 0.0 ,"global_count": 3}, {"name": "users_count", "value": 0, "total": 5}, {"name": "finish_users_count", "value": 0, "total": 0}, {"name": "error_connect_nxdomain", "value": 5, "total": 15}'
+		
+		tsung_parser = TsungJsonParser.new()
+		tsung_parser.add_string(json_data)
+		assert_equal(1,tsung_parser.count, "Input unclompleted line")
+
+		json_data = ' {"timestamp": 1325004682,  "samples": ['
+		tsung_parser.add_string(json_data)
+		assert_equal(2,tsung_parser.count, "Input unclompleted line")
+
 	end
 end

@@ -1,4 +1,5 @@
 require "open4"
+require "uuid"
 require "../src/TsungJsonParser"
 
 class Kanagawa 
@@ -13,8 +14,12 @@ class Kanagawa
 		return 1 unless File.exist?(@tsung_bin)
 		return 1 unless File.executable?(@tsung_bin)
 
-		exec="#{@tsung_bin} -f - -m - start"
+		forced_stop = false
+		uuid = UUID.new.generate
+		exec="#{@tsung_bin} -f - -m - -i #{uuid} start"
 		status = Open4::popen4(exec) do |pid, stdin, stdout, stderr|
+			#puts "[#{pid}] #{exec} < #{@scenario}"
+
 			err_thread = Thread.new(stderr) do |stderr_lines|
 				while (line = stderr_lines.gets)
 	          puts "stderr: #{line}"
@@ -23,11 +28,12 @@ class Kanagawa
 
 			out_thread = Thread.new(stdout) do |stdout_lines|
 				while (line = stdout_lines.gets)
-					#@tsung_parser.add_json(line)
-					#if @tsung_parser.status? == :break
-					#	Process.kill 15, pid 
-					#	puts "killing  #{pid}" 
-					#end
+					@tsung_parser.add_string(line)
+					if @tsung_parser.status? == :break
+						Open4::popen4("#{@tsung_bin} -i #{uuid} stop")
+						#puts "break requested ... stoping #{pid} with '#{@tsung_bin} -i #{uuid} stop'" 
+						forced_stop = true
+					end
 				end
 			end
 
@@ -39,6 +45,9 @@ class Kanagawa
 			err_thread.join
 			out_thread.join
     end
-		status.exitstatus.nil? ? 1 : status.exitstatus
+		return_code = status.exitstatus.nil? ? 1 : status.exitstatus
+		return_code = 1 if forced_stop
+
+		return return_code 
 	end
 end
