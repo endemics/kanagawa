@@ -1,5 +1,5 @@
 require "open4"
-require "uuid"
+require "uuidtools"
 require "../src/TsungJsonParser"
 
 class Kanagawa 
@@ -15,7 +15,7 @@ class Kanagawa
 		return 1 unless File.executable?(@tsung_bin)
 
 		forced_stop = false
-		uuid = UUID.new.generate
+		uuid = UUIDTools::UUID.timestamp_create
 		exec="#{@tsung_bin} -f - -m - -i #{uuid} start"
 		status = Open4::popen4(exec) do |pid, stdin, stdout, stderr|
 			#puts "[#{pid}] #{exec} < #{@scenario}"
