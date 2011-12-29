@@ -55,7 +55,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 		assert_equal(0,tsung_parser.count)
 	end
 
-	def test_tsung_parser_count_equal_0_when_adding_first_curly_bracket
+	def test_tsung_parser_count_equal_0_when_adding_first_curly_brace
 		tsung_parser = TsungJsonParser.new()
 		json_data = '{ '
 
@@ -113,16 +113,22 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 		assert_equal(1,tsung_parser.count)
 	end
 
-	def test_i_can_add_brocken_json_data_produce_when_tsung_stop
+	def test_tsung_parser_count_equal_1_when_adding_truncated_json_with_missing_end_curly_brace
 		json_data =' {"timestamp": 1325003014,  "samples": [   {"name": "users", "value": 5, "max": 5}, {"name": "freemem", "hostname": "localhost", "value": 1, "mean": 2751.1640625,"stdvar": 0.0,"max": 2751.22265625,"min": 2750.48046875 ,"global_mean": 2750.9388020833335 ,"global_count": 3}, {"name": "cpu", "hostname": "localhost", "value": 1, "mean": 0.5744255744255744,"stdvar": 0.0,"max": 1.6504126031507877,"min": 0.24968789013732834 ,"global_mean": 0.8081920059212137 ,"global_count": 3}, {"name": "load", "hostname": "localhost", "value": 1, "mean": 0.0,"stdvar": 0.0,"max": 0.0,"min": 0.0 ,"global_mean": 0.0 ,"global_count": 3}, {"name": "users_count", "value": 0, "total": 5}, {"name": "finish_users_count", "value": 0, "total": 0}, {"name": "error_connect_nxdomain", "value": 5, "total": 15}'
-		
 		tsung_parser = TsungJsonParser.new()
+		
 		tsung_parser.add_string(json_data)
-		assert_equal(1,tsung_parser.count, "Input unclompleted line")
+		
+		assert_equal(1,tsung_parser.count)
+	end
 
+	def test_tsung_parser_count_equal_1_when_adding_truncated_json_with_missing_end_square_bracket_and_curly_brace
+		tsung_parser = TsungJsonParser.new()
 		json_data = ' {"timestamp": 1325004682,  "samples": ['
+
 		tsung_parser.add_string(json_data)
-		assert_equal(2,tsung_parser.count, "Input unclompleted line")
+
+		assert_equal(1,tsung_parser.count)
 
 	end
 end
