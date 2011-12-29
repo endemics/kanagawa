@@ -10,7 +10,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
    	  {"name": "finish_users_count", "value": 0, "total": 0},
    	  {"name": "error_connect_nxdomain", "value": 1, "total": 1}]}'
 
-		assert_status_code_equal(:break,json_data)
+		assert_add_json_status_code_equal(:break,json_data)
 	end
 
 	def test_status_return_ok_when_no_error_occurred
@@ -29,18 +29,20 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 			{"name": "size_sent", "value": 54, "total": 54}, 
 			{"name": "connected", "value": 0, "max": 0}]}' 
 
-		assert_status_code_equal(:ok,json_data)
+		assert_add_json_status_code_equal(:ok,json_data)
 	end
 
 	def test_status_return_ok_when_no_data
 		json_data = nil
 
-		assert_status_code_equal(:ok,json_data)
+		assert_add_json_status_code_equal(:ok,json_data)
 	end
 
 	def test_do_nothing_when_add_nil_data
 		tsung_parser = TsungJsonParser.new()
+
 		tsung_parser.add_json(nil)
+
 		assert_equal(0,tsung_parser.count)
 	end
 

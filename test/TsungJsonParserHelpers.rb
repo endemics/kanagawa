@@ -1,4 +1,4 @@
-def assert_status_code_equal return_code, json_data
+def assert_add_json_status_code_equal return_code, json_data
 		tsung_parser = TsungJsonParser.new()
 
 		tsung_parser.add_json(json_data)
