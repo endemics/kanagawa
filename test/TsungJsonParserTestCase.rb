@@ -81,6 +81,5 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 
 	def test_tsung_parser_count_equal_1_when_adding_truncated_json_with_missing_end_square_bracket_and_curly_brace
 		assert_when_adding_string_tsung_parser_count_equal(1,' {"timestamp": 1325004682,  "samples": [')
-		#assert_when_adding_string_tsung_parser_count_equal(1,
 	end
 end
