@@ -38,7 +38,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 		assert_add_json_status_code_equal(:ok,json_data)
 	end
 
-	def test_do_nothing_when_add_nil_data
+	def test_tsung_parser_count_equal_0_when_adding_nil_data
 		tsung_parser = TsungJsonParser.new()
 
 		tsung_parser.add_json(nil)
