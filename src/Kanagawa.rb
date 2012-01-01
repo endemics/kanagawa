@@ -1,6 +1,6 @@
 require "open4"
 require "uuidtools"
-require "../src/TsungJsonParser"
+require "src/TsungJsonParser"
 
 class Kanagawa 
 	def initialize(scenario, tsung_bin = '/usr/bin/tsung')

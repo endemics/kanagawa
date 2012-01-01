@@ -1,2 +1,0 @@
-require "KanagawaMocksTestCase"
-require "TsungJsonParserTestCase"

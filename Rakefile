@@ -1,14 +1,21 @@
-task :default => [:quicktest]
+require 'rubygems'
+require 'rake/testtask'
 
-desc 'run quick unit tests (default)'
-task :quicktest do
-  ruby "-rubygems -C test QuickTests.rb"
+task :default => [:unit]
+
+desc 'run unit tests (default)'
+Rake::TestTask.new(:unit) do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/unit/*.rb']
+  t.verbose = true
 end
 
-desc 'run slow unit tests (inc. real tsung tests)'
-task :slowtest do
-  ruby "-rubygems -C test SlowTests.rb"
+desc 'run integration tests (inc. real tsung tests)'
+Rake::TestTask.new(:integration) do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/integration/*.rb']
+  t.verbose = true
 end
 
-desc 'run all unit tests (mocks + real tsung tests)'
-task :test => [:quicktest, :slowtest]
+desc 'run all tests (unit+integration)'
+task :alltests => [:unit, :integration]

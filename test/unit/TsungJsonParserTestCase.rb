@@ -1,6 +1,5 @@
-require "../src/TsungJsonParser"
+require "src/TsungJsonParser"
 require "test/unit"
-require "TsungJsonParserHelpers"
 
 class TsungJsonParserTestCase < Test::Unit::TestCase
 	def test_status_return_break_when_error_connect_nxdomain_occurred
@@ -82,4 +81,20 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 	def test_tsung_parser_count_equal_1_when_adding_truncated_json_with_missing_end_square_bracket_and_curly_brace
 		assert_when_adding_string_tsung_parser_count_equal(1,' {"timestamp": 1325004682,  "samples": [')
 	end
+end
+
+def assert_add_json_status_code_equal return_code, json_data
+  tsung_parser = TsungJsonParser.new()
+
+  tsung_parser.add_json(json_data)
+
+  assert_equal(return_code,tsung_parser.status?)
+end
+
+def assert_when_adding_string_tsung_parser_count_equal count, string
+  tsung_parser = TsungJsonParser.new()
+
+  tsung_parser.add_string(string)
+      
+  assert_equal(count,tsung_parser.count)
 end
