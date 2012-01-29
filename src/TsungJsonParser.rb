@@ -8,19 +8,22 @@ class TsungJsonParser
 	# to add one line directly output from JSON tsung this function will cleanup the string before call of add_json
 	def add_string(input)
 		return 0 if input.nil?
+    
+    input.each_line do |input_line|
 
-		if input.include? "timestamp"
-			# remove last ","
-			input = input.sub(/,\s*$/, " ")
-			# remove last "]}" they correspond to close of '{"stats": ['
-			input = input.sub(/\}\]\}\]\}\s*$/, "}]}") unless input.nil?
-			# add ']}' if json is not correctly ended	
-			input = input.sub(/([0-9])\}$/, '\1}]}') unless input.nil?
-			input = input.sub(/\[$/, '[]}') unless input.nil?
-			#puts "Good line : -#{input}-"
+      if input_line.include? "timestamp"
+        # remove last ","
+        input_line = input_line.sub(/,\s*$/, " ")
+        # remove last "]}" they correspond to close of '{"stats": ['
+        input_line = input_line.sub(/\}\]\}\]\}\s*$/, "}]}") unless input_line.nil?
+        # add ']}' if json is not correctly ended	
+        input_line = input_line.sub(/([0-9])\}$/, '\1}]}') unless input_line.nil?
+        input_line = input_line.sub(/\[$/, '[]}') unless input_line.nil?
+        #puts "Good line : -#{input}-"
 
-			add_json(input)
-		end
+        add_json(input_line)
+      end
+    end
 	end
 
 	# to add one data burst in json format

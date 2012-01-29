@@ -26,6 +26,8 @@ class KanagawaTestCase < Test::Unit::TestCase
 		assert_return_code_with_bin_equal(1,"test/fixtures/tsung_test_minimal.xml","/etc/passwd")
 	end
 
+  def test_return_1_when_more_than_5_percent_of_transaction_take_more_than_1_second
+  end
 end
 
 def assert_return_code_with_bin_equal return_code, scenario, bin

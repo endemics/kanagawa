@@ -81,6 +81,20 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 	def test_tsung_parser_count_equal_1_when_adding_truncated_json_with_missing_end_square_bracket_and_curly_brace
 		assert_when_adding_string_tsung_parser_count_equal(1,' {"timestamp": 1325004682,  "samples": [')
 	end
+
+  def test_tsung_parser_count_equal_2_when_adding_3_bad_lines_and_2_good_lines
+		tsung_parser = TsungJsonParser.new()
+		json_data = 
+    '{ 
+			 "stats": [
+		 
+				  {"timestamp": 1324940864,  "samples": []},
+				  {"timestamp": 1324940874,  "samples": [   {"name": "users", "value": 0, "max": 0}, {"name": "users_count", "value": 0, "total": 0}, {"name": "finish_users_count", "value": 0, "total": 0}]},'
+
+		tsung_parser.add_string(json_data)
+
+		assert_equal(2,tsung_parser.count)
+	end
 end
 
 def assert_add_json_status_code_equal return_code, json_data
